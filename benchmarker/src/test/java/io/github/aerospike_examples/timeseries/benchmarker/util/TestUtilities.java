@@ -27,7 +27,7 @@ public class TestUtilities {
      * @param timeSeriesSetName - name of the set time series is being stored in
      */
     public static void removeTimeSeriesTestDataForSet(String timeSeriesSetName) {
-        AerospikeClient asClient = new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT);
+        AerospikeClient asClient = new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100);
 
         asClient.truncate(new InfoPolicy(), TestConstants.AEROSPIKE_NAMESPACE, timeSeriesSetName, null);
         asClient.truncate(new InfoPolicy(), TestConstants.AEROSPIKE_NAMESPACE, TimeSeriesClient.timeSeriesIndexSetName(timeSeriesSetName), null);
@@ -117,7 +117,7 @@ public class TestUtilities {
 
     // Default TimeSeriesClient for tests
     public static TimeSeriesClient defaultTimeSeriesClient() {
-        return new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        return new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET, Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK);
     }
 

@@ -194,7 +194,7 @@ public class TimeSeriesBenchmarker {
     }
 
     public void run() {
-        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(aerospikeClient = new AerospikeClient(asHost, Constants.DEFAULT_AEROSPIKE_PORT),
+        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(aerospikeClient = new AerospikeClient(asHost, 3100),
                 asNamespace, asSet, recordsPerBlock);
 
         switch (runMode) {

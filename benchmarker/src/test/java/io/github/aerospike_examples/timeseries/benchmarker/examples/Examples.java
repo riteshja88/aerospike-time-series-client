@@ -25,7 +25,7 @@ public class Examples {
     @Test
     public void simpleTimeSeriesExample() throws ParseException {
         TestUtilities.removeTimeSeriesTestDataForSet(TestConstants.TIME_SERIES_TEST_SET);
-        AerospikeClient asClient = new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT);
+        AerospikeClient asClient = new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100);
         String asNamespaceName = "test";
         // Let's store some temperature readings taken in Trafalgar Square, London. Readings are Centigrade.
         String timeSeriesName = "TrafalgarSquare-Temperature-Centigrade";
@@ -67,7 +67,7 @@ public class Examples {
     @Test
     public void batchTimeSeriesExample() throws ParseException {
         TestUtilities.removeTimeSeriesTestDataForSet(TestConstants.TIME_SERIES_TEST_SET);
-        AerospikeClient asClient = new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT);
+        AerospikeClient asClient = new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100);
         String asNamespaceName = "test";
         // Let's store some temperature readings taken in Trafalgar Square, London. Readings are Centigrade.
         String timeSeriesName = "TrafalgarSquare-Temperature-Centigrade";

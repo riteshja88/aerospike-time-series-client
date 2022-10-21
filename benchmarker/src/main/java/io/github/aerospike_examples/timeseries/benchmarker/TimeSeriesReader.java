@@ -12,6 +12,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.ParseException;
 
 import java.util.Vector;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Time Series Reader class to write out a time series to the command line
@@ -24,12 +26,19 @@ public class TimeSeriesReader {
     private final String asNamespace;
     private final String asSet;
     private String timeSeriesName;
+	public Date start;
+	public Date end;
 
-    private TimeSeriesReader(AerospikeClient asClient, String asNamespace, String asSet, String timeSeriesName) {
+    private TimeSeriesReader(AerospikeClient asClient, String asNamespace, String asSet, String timeSeriesName, String start, String end) {
         this.asClient = asClient;
         this.asNamespace = asNamespace;
         this.asSet = asSet;
         this.timeSeriesName = timeSeriesName;
+		try {
+			this.start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(start);
+			this.end = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(end);
+		} catch (Exception e) {
+		}
     }
 
     /**
@@ -40,7 +49,7 @@ public class TimeSeriesReader {
     public static void main(String[] args) {
         try {
             TimeSeriesReader timeSeriesReader = initBenchmarkerFromStringArgs(args);
-            timeSeriesReader.run();
+            timeSeriesReader.run(args);
         } catch (Utilities.ParseException e) {
             System.out.println(e.getMessage());
             HelpFormatter formatter = new HelpFormatter();
@@ -61,10 +70,12 @@ public class TimeSeriesReader {
             timeSeriesReader = new TimeSeriesReader(
                     new AerospikeClient(
                             OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.HOST_FLAG),
-                            Constants.DEFAULT_AEROSPIKE_PORT),
+                            3100),
                     OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.NAMESPACE_FLAG),
                     OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.TIME_SERIES_SET_FLAG),
-                    OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.TIME_SERIES_NAME_FLAG)
+                    OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.TIME_SERIES_NAME_FLAG),
+					OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.RITESH_START_TIME),
+					OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.RITESH_END_TIME)
             );
         } catch (ParseException e) {
             System.out.println(e.getMessage());
@@ -75,13 +86,13 @@ public class TimeSeriesReader {
         return timeSeriesReader;
     }
 
-    private void run() {
-        System.out.println("Running TimeSeriesReader\n");
+    private void run(String[] args) {
+        //System.out.println("Running TimeSeriesReader\n");
         TimeSeriesClient timeSeriesClient = new TimeSeriesClient(asClient, asNamespace, asSet,
                 Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK);
 
         if (timeSeriesName != null) {
-            System.out.printf("Running time series reader for %s%n", timeSeriesName);
+            //System.out.printf("Running time series reader for %s%n", timeSeriesName);
         } else {
             Vector<String> timeSeriesNames = Utilities.getTimeSeriesNames(timeSeriesClient);
             if (timeSeriesNames.size() > 0) {
@@ -91,9 +102,21 @@ public class TimeSeriesReader {
                 System.out.printf("No time series data found in %s.%s%n%n", asNamespace, asSet);
             }
         }
-        if (timeSeriesName != null) {
-            ClientUtils.printTimeSeries(timeSeriesClient, timeSeriesName);
-        }
+
+		/*
+		if (timeSeriesName != null) {
+			ClientUtils.printTimeSeries(timeSeriesClient, timeSeriesName);
+		}
+		*/
+		if (timeSeriesName != null) {
+			//System.out.println("ritesh"+this.start);
+			//System.out.println("ritesh"+this.end);
+			int i;
+			for(i=0;i<timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end).length	;i++) {
+				System.out.println("" + timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end)[i].getTimestamp() + " " +
+								   timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end)[i].getValue());
+			}
+		}
     }
 
 }

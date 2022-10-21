@@ -153,7 +153,7 @@ public class TimeSeriesClientTest {
         int entriesPerBlock = 60;
         int requiredBlocks = 10;
         doTeardown = false;
-        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET,
                 Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK);
 
@@ -395,7 +395,7 @@ public class TimeSeriesClientTest {
     private double[] createTimeSeries(String timeSeriesName, int intervalInSeconds, int iterations, int recordsPerBlock,
                                       boolean useTestMode, double failurePctForCopyBlock) throws Exception {
 
-        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET, recordsPerBlock);
         timeSeriesClient.testMode = useTestMode;
         timeSeriesClient.failurePctRateForCopyBlock = failurePctForCopyBlock;
@@ -476,7 +476,7 @@ public class TimeSeriesClientTest {
         int recordsPerBlock = 3;
         TimeSeriesClient timeSeriesClient;
 
-        timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET, recordsPerBlock);
         DataPoint[] dataPoints = createDataPoints(startTime, 1, 1);
         timeSeriesClient.put(TEST_TIME_SERIES_NAME, dataPoints);

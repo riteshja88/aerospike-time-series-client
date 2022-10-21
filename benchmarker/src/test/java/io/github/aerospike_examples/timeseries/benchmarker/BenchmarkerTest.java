@@ -35,7 +35,7 @@ public class BenchmarkerTest {
                 TimeSeriesBenchmarker.DEFAULT_ACCELERATION_FACTOR, TimeSeriesBenchmarker.DEFAULT_THREAD_COUNT,
                 TimeSeriesBenchmarker.DEFAULT_TIME_SERIES_COUNT);
 
-        RealTimeInsertTimeSeriesRunnable benchmarkRunnable = new RealTimeInsertTimeSeriesRunnable(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        RealTimeInsertTimeSeriesRunnable benchmarkRunnable = new RealTimeInsertTimeSeriesRunnable(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET, 1, benchmarker);
         String timeSeriesName = benchmarkRunnable.randomTimeSeriesName();
         Assert.assertEquals(timeSeriesName.length(), benchmarker.timeSeriesNameLength);
@@ -52,7 +52,7 @@ public class BenchmarkerTest {
                 TimeSeriesBenchmarker.DEFAULT_ACCELERATION_FACTOR, TimeSeriesBenchmarker.DEFAULT_THREAD_COUNT,
                 TimeSeriesBenchmarker.DEFAULT_TIME_SERIES_COUNT);
 
-        RealTimeInsertTimeSeriesRunnable benchmarkRunnable = new RealTimeInsertTimeSeriesRunnable(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        RealTimeInsertTimeSeriesRunnable benchmarkRunnable = new RealTimeInsertTimeSeriesRunnable(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET, 1, benchmarker);
 
         int randomSampleCount = 10000;
@@ -219,7 +219,7 @@ public class BenchmarkerTest {
                         0, dailyDriftPct, dailyVolatilityPct, TestConstants.RANDOM_SEED);
         long startTime = System.currentTimeMillis();
         benchmarker.run();
-        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET, Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK);
 
         DataPoint[] dataPoints = timeSeriesClient.getPoints(TestConstants.REFERENCE_TIME_SERIES_NAME, new Date(startTime), new Date(startTime + (long) accelerationFactor * runDurationSeconds * 1000));
@@ -251,7 +251,7 @@ public class BenchmarkerTest {
                         threadCount, timeSeriesCount, Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK, 0, dailyDriftPct, dailyVolatilityPct, TestConstants.RANDOM_SEED);
         long startTime = System.currentTimeMillis();
         benchmarker.run();
-        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET,
                 Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK);
 
@@ -368,7 +368,7 @@ public class BenchmarkerTest {
         Vector<String> timeSeriesNames = Utilities.getTimeSeriesNames(TestUtilities.defaultTimeSeriesClient());
         for (String timeSeriesName : timeSeriesNames) {
             System.out.println(String.format("Checking time series with name %s", timeSeriesName));
-            TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+            TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                     TestConstants.AEROSPIKE_NAMESPACE, TestConstants.TIME_SERIES_TEST_SET,
                     Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK);
 
@@ -591,7 +591,7 @@ public class BenchmarkerTest {
 
         TimeSeriesBenchmarker.main(commandLineArguments.split(" "));
 
-        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, Constants.DEFAULT_AEROSPIKE_PORT),
+        TimeSeriesClient timeSeriesClient = new TimeSeriesClient(new AerospikeClient(TestConstants.AEROSPIKE_HOST, 3100),
                 TestConstants.AEROSPIKE_NAMESPACE, alternativeTimeSeriesSet,
                 Constants.DEFAULT_MAX_ENTRIES_PER_TIME_SERIES_BLOCK);
 
