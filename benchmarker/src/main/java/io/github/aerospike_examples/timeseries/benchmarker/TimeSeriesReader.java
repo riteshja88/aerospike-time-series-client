@@ -112,6 +112,7 @@ public class TimeSeriesReader {
 			//System.out.println("ritesh"+this.start);
 			//System.out.println("ritesh"+this.end);
 			int i;
+			System.out.println("timestamp value");
 			for(i=0;i<timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end).length	;i++) {
 				System.out.println("" + timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end)[i].getTimestamp() + " " +
 								   timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end)[i].getValue());
