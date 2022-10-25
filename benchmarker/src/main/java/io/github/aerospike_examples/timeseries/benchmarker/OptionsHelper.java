@@ -23,6 +23,7 @@ public class OptionsHelper {
     public static class BenchmarkerFlags {
 		public static final String RITESH_START_TIME = "w";
 		public static final String RITESH_END_TIME = "x";
+		public static final String RITESH_ALIAS = "y";
         /**
          * Flag to indicate host to use for benchmarking : h
          */
@@ -279,6 +280,8 @@ public class OptionsHelper {
                 "timeSeriesName", true, "Name of time series");
 		Option ritesh_end = new Option(OptionsHelper.BenchmarkerFlags.RITESH_END_TIME,
                 "timeSeriesName", true, "Name of time series");
+		Option ritesh_alias = new Option(OptionsHelper.BenchmarkerFlags.RITESH_ALIAS,
+									   "timeSeriesName", true, "Name of time series");
 
         // These options are common to all modes
         hostOption.setRequired(true);
@@ -293,6 +296,7 @@ public class OptionsHelper {
 		cmdLineOptions.addOption(timeSeriesNameOption);
 		cmdLineOptions.addOption(ritesh_start);
 		cmdLineOptions.addOption(ritesh_end);
+		cmdLineOptions.addOption(ritesh_alias);
         return cmdLineOptions;
     }
 

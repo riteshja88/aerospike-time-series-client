@@ -28,12 +28,18 @@ public class TimeSeriesReader {
     private String timeSeriesName;
 	public Date start;
 	public Date end;
+	private String timeSeriesName_alias;
 
-    private TimeSeriesReader(AerospikeClient asClient, String asNamespace, String asSet, String timeSeriesName, String start, String end) {
+    private TimeSeriesReader(AerospikeClient asClient, String asNamespace, String asSet, String timeSeriesName, String start, String end,String timeSeriesName_alias) {
         this.asClient = asClient;
         this.asNamespace = asNamespace;
         this.asSet = asSet;
         this.timeSeriesName = timeSeriesName;
+
+		this.timeSeriesName_alias = timeSeriesName;
+		if(null != timeSeriesName_alias && "" != timeSeriesName_alias) {
+			this.timeSeriesName_alias = timeSeriesName_alias;
+		}
 		try {
 			this.start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(start);
 			this.end = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(end);
@@ -75,7 +81,8 @@ public class TimeSeriesReader {
                     OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.TIME_SERIES_SET_FLAG),
                     OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.TIME_SERIES_NAME_FLAG),
 					OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.RITESH_START_TIME),
-					OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.RITESH_END_TIME)
+					OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.RITESH_END_TIME),
+					OptionsHelper.getOptionUsingDefaults(cmd, OptionsHelper.BenchmarkerFlags.RITESH_ALIAS)
             );
         } catch (ParseException e) {
             System.out.println(e.getMessage());
@@ -112,7 +119,7 @@ public class TimeSeriesReader {
 			//System.out.println("ritesh"+this.start);
 			//System.out.println("ritesh"+this.end);
 			int i;
-			System.out.println("timestamp value");
+			System.out.println("timestamp " + this.timeSeriesName_alias);
 			for(i=0;i<timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end).length	;i++) {
 				System.out.println("" + timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end)[i].getTimestamp() + " " +
 								   timeSeriesClient.getPoints(timeSeriesName ,this.start, this.end)[i].getValue());
